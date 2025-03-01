@@ -1,4 +1,4 @@
-CREATE TABLE lessons (
+\CREATE TABLE lessons (
 	id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 	name VARCHAR(50) NOT NULL,
 	body text,
@@ -38,4 +38,24 @@ CREATE TABLE programs (
         created_at DATE NOT NULL,
         update_at DATE,
 	is_deleted tinyint
+);
+
+CREATE TABLE users (
+        id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+        name VARCHAR(50) NOT NULL,
+        email VARCHAR(255),
+	password text,
+	teachig_groupe_id BIGINT REFERENCES teaching_groupes(id) NOT NULL,
+        created_at DATE NOT NULL,
+        update_at DATE,
+	role VARCHAR(50),
+        is_deleted tinyint
+);
+
+CREATE TABLE teaching_groups (
+        id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+        slug VARCHAR(50) NOT NULL,
+        created_at DATE NOT NULL,
+        update_at DATE,
+        is_deleted tinyint
 );
