@@ -15,7 +15,7 @@ CREATE TABLE lessons (
 	position BIGINT,
 	created_at DATE NOT NULL,
 	updated_at DATE,
-	course_id BIGINT REFERENCES courses(id) NOT NULL,
+	course_id BIGINT REFERENCES courses(id),
 	deleted_at BOOLEAN
 );
 
@@ -38,13 +38,15 @@ CREATE TABLE programs (
 );
 
 CREATE TABLE program_modules (
-	program_id BIGINT REFERENCES programs(id) NOT NULL,
-	module_id BIGINT REFERENCES modules(id) NOT NULL
+	program_id BIGINT REFERENCES programs,
+	module_id BIGINT REFERENCES modules,
+	PRIMARY KEY (program_id, module_id)
 );
 
 CREATE TABLE course_modules (
-        course_id BIGINT REFERENCES courses(id) NOT NULL,
-        module_id BIGINT REFERENCES modules(id) NOT NULL
+        course_id BIGINT REFERENCES courses,
+        module_id BIGINT REFERENCES modules,
+	PRIMARY KEY (course_id, module_id)
 );
 
 CREATE TABLE teaching_groups (
@@ -59,7 +61,7 @@ CREATE TABLE users (
         name VARCHAR(50) NOT NULL,
         email VARCHAR(255),
 	password_hash VARCHAR(500),
-	teaching_group_id BIGINT REFERENCES teaching_groups(id) NOT NULL,
+	teaching_group_id BIGINT REFERENCES teaching_groups(id),
         created_at DATE NOT NULL,
         updated_at DATE,
 	role VARCHAR(50),
@@ -70,8 +72,8 @@ CREATE TABLE users (
 CREATE TYPE subscription AS ENUM ('active', 'pending', 'cancelled', 'completed');
 CREATE TABLE enrollments (
         id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-	user_id BIGINT REFERENCES users(id) NOT NULL,
-	program_id BIGINT REFERENCES programs(id) NOT NULL,
+	user_id BIGINT REFERENCES users(id),
+	program_id BIGINT REFERENCES programs(id),
 	status subscription,
         created_at DATE NOT NULL,
         updated_at DATE
@@ -80,7 +82,7 @@ CREATE TABLE enrollments (
 CREATE TYPE pay AS ENUM ('pending', 'paid', 'failed', 'refunded');
 CREATE TABLE payments (
         id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-        enrollment_id BIGINT REFERENCES enrollments(id) NOT NULL,
+        enrollment_id BIGINT REFERENCES enrollments(id),
 	amount integer,
         status pay,
 	paid_at DATE,
@@ -91,8 +93,8 @@ CREATE TABLE payments (
 CREATE TYPE completion AS ENUM ('active', 'completed', 'pending', 'cancelled');
 CREATE TABLE program_completions (
         id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-        user_id BIGINT REFERENCES users(id) NOT NULL,
-	program_id BIGINT REFERENCES programs(id) NOT NULL,
+        user_id BIGINT REFERENCES users(id),
+	program_id BIGINT REFERENCES programs(id),
         status completion,
         started_at DATE,
 	completed_at DATE,
@@ -102,8 +104,8 @@ CREATE TABLE program_completions (
 
 CREATE TABLE certificates (
         id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-        user_id BIGINT REFERENCES users(id) NOT NULL,
-        program_id BIGINT REFERENCES programs(id) NOT NULL,
+        user_id BIGINT REFERENCES users(id),
+        program_id BIGINT REFERENCES programs(id),
 	url VARCHAR(500),
 	issued_at DATE,
         created_at DATE NOT NULL,
@@ -112,7 +114,7 @@ CREATE TABLE certificates (
 
 CREATE TABLE quizzes (
         id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-        lesson_id BIGINT REFERENCES lessons(id) NOT NULL,
+        lesson_id BIGINT REFERENCES lessons(id),
         name VARCHAR(100),
 	content text,
         created_at DATE NOT NULL,
@@ -121,7 +123,7 @@ CREATE TABLE quizzes (
 
 CREATE TABLE exercises (
         id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-        lesson_id BIGINT REFERENCES lessons(id) NOT NULL,
+        lesson_id BIGINT REFERENCES lessons(id),
         name VARCHAR(100),
         url VARCHAR(255),
         created_at DATE NOT NULL,
@@ -130,8 +132,8 @@ CREATE TABLE exercises (
 
 CREATE TABLE discussions (
         id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-        lesson_id BIGINT REFERENCES lessons(id) NOT NULL,
-	user_id BIGINT REFERENCES users(id) NOT NULL,
+        lesson_id BIGINT REFERENCES lessons(id),
+	user_id BIGINT REFERENCES users(id),
         text text,
         created_at DATE NOT NULL,
         updated_at DATE
@@ -140,7 +142,7 @@ CREATE TABLE discussions (
 CREATE TYPE status AS ENUM ('created', 'in moderation', 'published', 'archived');
 CREATE TABLE blogs (
         id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-        user_id BIGINT REFERENCES users(id) NOT NULL,
+        user_id BIGINT REFERENCES users(id),
         name VARCHAR(255),
         content text,
 	status status,
