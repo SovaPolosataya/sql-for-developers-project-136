@@ -59,7 +59,7 @@ CREATE TABLE users (
         name VARCHAR(50) NOT NULL,
         email VARCHAR(255),
 	password_hash VARCHAR(500),
-	teachig_group_id BIGINT REFERENCES teaching_groups(id) NOT NULL,
+	teaching_group_id BIGINT REFERENCES teaching_groups(id) NOT NULL,
         created_at DATE NOT NULL,
         updated_at DATE,
 	role VARCHAR(50),
