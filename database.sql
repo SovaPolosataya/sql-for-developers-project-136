@@ -37,12 +37,12 @@ CREATE TABLE programs (
         updated_at DATE
 );
 
-CREATE TABLE program_moduls (
+CREATE TABLE program_modules (
 	program_id BIGINT REFERENCES programs(id) NOT NULL,
 	module_id BIGINT REFERENCES modules(id) NOT NULL
 );
 
-CREATE TABLE course_moduls (
+CREATE TABLE course_modules (
         course_id BIGINT REFERENCES courses(id) NOT NULL,
         module_id BIGINT REFERENCES modules(id) NOT NULL
 );
@@ -58,8 +58,8 @@ CREATE TABLE users (
         id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
         name VARCHAR(50) NOT NULL,
         email VARCHAR(255),
-	password VARCHAR(500),
-	teachig_groupe_id BIGINT REFERENCES teaching_groups(id) NOT NULL,
+	password_hash VARCHAR(500),
+	teachig_group_id BIGINT REFERENCES teaching_groups(id) NOT NULL,
         created_at DATE NOT NULL,
         updated_at DATE,
 	role VARCHAR(50),
@@ -83,7 +83,7 @@ CREATE TABLE payments (
         enrollment_id BIGINT REFERENCES enrollments(id) NOT NULL,
 	amount integer,
         status pay,
-	payid_at DATE,
+	paid_at DATE,
         created_at DATE NOT NULL,
         updated_at DATE
 );
@@ -138,7 +138,7 @@ CREATE TABLE discussions (
 );
 
 CREATE TYPE status AS ENUM ('created', 'in moderation', 'published', 'archived');
-CREATE TABLE blog (
+CREATE TABLE blogs (
         id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
         user_id BIGINT REFERENCES users(id) NOT NULL,
         name VARCHAR(255),
