@@ -1,3 +1,12 @@
+CREATE TABLE courses (
+        id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+        name VARCHAR(50) NOT NULL,
+        description text,
+        created_at DATE NOT NULL,
+        updated_at DATE,
+	deleted_at BOOLEAN
+);
+
 CREATE TABLE lessons (
 	id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 	name VARCHAR(50) NOT NULL,
@@ -7,16 +16,7 @@ CREATE TABLE lessons (
 	created_at DATE NOT NULL,
 	updated_at DATE,
 	course_id BIGINT REFERENCES courses(id) NOT NULL,
-	deleted_at tinyint
-);
-
-CREATE TABLE courses (
-        id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-        name VARCHAR(50) NOT NULL,
-        description text,
-        created_at DATE NOT NULL,
-        updated_at DATE,
-	deleted_at tinyint
+	deleted_at BOOLEAN
 );
 
 CREATE TABLE modules (
@@ -25,7 +25,7 @@ CREATE TABLE modules (
         description text,
         created_at DATE NOT NULL,
         updated_at DATE,
-	deleted_at tinyint
+	deleted_at BOOLEAN
 );
 
 CREATE TABLE programs (
@@ -34,7 +34,7 @@ CREATE TABLE programs (
         price integer,
 	program_type VARCHAR(50),
         created_at DATE NOT NULL,
-        updated_at DATE,
+        updated_at DATE
 );
 
 CREATE TABLE program_moduls (
@@ -47,24 +47,25 @@ CREATE TABLE course_moduls (
         module_id BIGINT REFERENCES modules(id) NOT NULL
 );
 
-CREATE TABLE users (
-        id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-        name VARCHAR(50) NOT NULL,
-        email VARCHAR(255),
-	password VARCHAR(500),
-	teachig_groupe_id BIGINT REFERENCES teaching_groupes(id) NOT NULL,
-        created_at DATE NOT NULL,
-        updated_at DATE,
-	role VARCHAR(50),
-	deleted_at tinyint
-);
-
 CREATE TABLE teaching_groups (
         id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
         slug VARCHAR(50) NOT NULL,
         created_at DATE NOT NULL,
         updated_at DATE
 );
+
+CREATE TABLE users (
+        id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+        name VARCHAR(50) NOT NULL,
+        email VARCHAR(255),
+	password VARCHAR(500),
+	teachig_groupe_id BIGINT REFERENCES teaching_groups(id) NOT NULL,
+        created_at DATE NOT NULL,
+        updated_at DATE,
+	role VARCHAR(50),
+	deleted_at BOOLEAN
+);
+
 
 CREATE TYPE subscription AS ENUM ('active', 'pending', 'cancelled', 'completed');
 CREATE TABLE enrollments (
@@ -113,7 +114,7 @@ CREATE TABLE quizzes (
         id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
         lesson_id BIGINT REFERENCES lessons(id) NOT NULL,
         name VARCHAR(100),
-	content NVARCHAR,
+	content text,
         created_at DATE NOT NULL,
         updated_at DATE
 );
@@ -131,7 +132,7 @@ CREATE TABLE discussions (
         id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
         lesson_id BIGINT REFERENCES lessons(id) NOT NULL,
 	user_id BIGINT REFERENCES users(id) NOT NULL,
-        text NVARCHAR,
+        text text,
         created_at DATE NOT NULL,
         updated_at DATE
 );
