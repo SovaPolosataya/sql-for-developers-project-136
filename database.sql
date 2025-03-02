@@ -4,7 +4,7 @@ CREATE TABLE courses (
         description text,
         created_at DATE NOT NULL,
         updated_at DATE,
-	deleted_at BOOLEAN
+	deleted_at DATE
 );
 
 CREATE TABLE lessons (
@@ -16,7 +16,7 @@ CREATE TABLE lessons (
 	created_at DATE NOT NULL,
 	updated_at DATE,
 	course_id BIGINT REFERENCES courses(id),
-	deleted_at BOOLEAN
+	deleted_at DATE
 );
 
 CREATE TABLE modules (
@@ -25,7 +25,7 @@ CREATE TABLE modules (
         description text,
         created_at DATE NOT NULL,
         updated_at DATE,
-	deleted_at BOOLEAN
+	deleted_at DATE
 );
 
 CREATE TABLE programs (
@@ -65,7 +65,7 @@ CREATE TABLE users (
         created_at DATE NOT NULL,
         updated_at DATE,
 	role VARCHAR(50),
-	deleted_at BOOLEAN
+	deleted_at DATE
 );
 
 
