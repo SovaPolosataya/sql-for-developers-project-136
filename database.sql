@@ -105,3 +105,23 @@ CREATE TABLE certificates (
         update_at DATE,
         is_deleted tinyint
 );
+
+CREATE TABLE quizzes (
+        id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+        lesson_id BIGINT REFERENCES lessons(id) NOT NULL,
+        name VARCHAR(100),
+	body NVARCHAR,
+        created_at DATE NOT NULL,
+        update_at DATE,
+        is_deleted tinyint
+);
+
+CREATE TABLE exercises (
+        id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+        lesson_id BIGINT REFERENCES lessons(id) NOT NULL,
+        name VARCHAR(100),
+        url VARCHAR(255),
+        created_at DATE NOT NULL,
+        update_at DATE,
+        is_deleted tinyint
+);
